@@ -81,4 +81,33 @@ mysql> select * from t2;
 +----+--------------+
 3 rows in set (0.00 sec)
 
+mysql> create table t3;
+ERROR 4028 (HY000): A table must have at least one visible column.
+mysql> create table t3(id int unique,sub_name varchar(15),credits int check(credits>10));
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> insert into t3 values(1,"DSA",9);
+ERROR 3819 (HY000): Check constraint 't3_chk_1' is violated.
+mysql> insert into t3 values(1,"DSA",12);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into t3 values(2,"DBMS",12);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into t3 values(3,"SPOS",22);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into t3 values(3,"SPM",22);
+ERROR 1062 (23000): Duplicate entry '3' for key 't3.id'
+mysql> SELECT * FROM t3;
++------+----------+---------+
+| id   | sub_name | credits |
++------+----------+---------+
+|    1 | DSA      |      12 |
+|    2 | DBMS     |      12 |
+|    3 | SPOS     |      22 |
++------+----------+---------+
+3 rows in set (0.00 sec)
+
 mysql> 
+
