@@ -196,3 +196,4 @@ Query OK, 4 rows affected (0.02 sec)
 
 mysql> select * from anime_list;
 Empty set (0.00 sec)
+mysql>exit;
