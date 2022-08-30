@@ -10,3 +10,6 @@ dbms_output.put_line('greater number is'||num2);
 END IF;
 END;
 /
+o/p:
+SQL> @If_Else
+number is less than 30
