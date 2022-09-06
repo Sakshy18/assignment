@@ -12,3 +12,12 @@ dbms_output.put_line('sum is ');
 dbms_output.put_line('sum is '||num1);
 end;
 /
+
+o/p:
+sum is 
+sum is 4851
+
+Statement processed.
+
+0.02 seconds
+
