@@ -1,0 +1,38 @@
+===== PASS 1 =====
+
+ALA:
+[&FIRST, &SECOND]
+[&ARG1, &ARG2]
+
+MNT:
+[INCR1, 0]
+[INCR2, 4]
+
+MDT:
+INCR1       &FIRST,&SECOND=DATA9
+A           1,#0
+L           2,#1
+MEND        
+INCR2       &ARG1,&ARG2=DATA5
+L           3,#0
+ST          4,#1
+MEND        
+
+===== PASS 2 =====
+
+PRG2 START
+USING *,BASE
+            A                       1,DATA1
+            L                       2,DATA9
+            L                       3,DATA3
+            ST                      4,DATA4
+FOUR DC F'4'
+FIVE DC F'5'
+BASE EQU 8
+TEMP DS 1F
+DROP 8
+END
+
+ALA:
+[DATA1, DATA9]
+[DATA3, DATA4]
