@@ -249,4 +249,91 @@ department> db.dept.find()
     name: 'Artificial intelligence and data science'
   }
 ]
-department> 
+department> db.dept.remove(
+... {name:'civil'}
+... )
+DeprecationWarning: Collection.remove() is deprecated. Use deleteOne, deleteMany, findOneAndDelete, or bulkWrite.
+{ acknowledged: true, deletedCount: 1 }
+department> db.dept.find().pretty()
+[
+  {
+    _id: ObjectId("635f88be8e5ea0a647b3ef11"),
+    name: 'computer',
+    labs: 2
+  },
+  {
+    _id: ObjectId("635f89688e5ea0a647b3ef12"),
+    name: 'mechanical',
+    labs: 2
+  },
+  { _id: ObjectId("635f89688e5ea0a647b3ef14"), name: 'IT', labs: 2 },
+  {
+    _id: ObjectId("635f89a38e5ea0a647b3ef15"),
+    name: 'Instru',
+    labs: 2
+  },
+  { _id: ObjectId("635f89a38e5ea0a647b3ef16"), name: 'ENTC', labs: 2 },
+  {
+    _id: ObjectId("635f89a38e5ea0a647b3ef17"),
+    name: 'Artificial intelligence and data science'
+  }
+]
+department> db.dept.find()
+[
+  {
+    _id: ObjectId("635f88be8e5ea0a647b3ef11"),
+    name: 'computer',
+    labs: 2
+  },
+  {
+    _id: ObjectId("635f89688e5ea0a647b3ef12"),
+    name: 'mechanical',
+    labs: 2
+  },
+  { _id: ObjectId("635f89688e5ea0a647b3ef14"), name: 'IT', labs: 2 },
+  {
+    _id: ObjectId("635f89a38e5ea0a647b3ef15"),
+    name: 'Instru',
+    labs: 2
+  },
+  { _id: ObjectId("635f89a38e5ea0a647b3ef16"), name: 'ENTC', labs: 2 },
+  {
+    _id: ObjectId("635f89a38e5ea0a647b3ef17"),
+    name: 'Artificial intelligence and data science'
+  }
+]
+department> db.dept.drop()
+true
+department> db.dept.find()
+
+department> db.dropDatabase()
+{ ok: 1, dropped: 'department' }
+department> show dbs
+admin      40.00 KiB
+aggreg49   80.00 KiB
+aniket     72.00 KiB
+assign     72.00 KiB
+book      252.00 KiB
+book1      72.00 KiB
+class      40.00 KiB
+config     96.00 KiB
+local      80.00 KiB
+player     40.00 KiB
+test      344.00 KiB
+department> use book
+switched to db book
+book> show dbs
+admin      40.00 KiB
+aggreg49   80.00 KiB
+aniket     72.00 KiB
+assign     72.00 KiB
+book      252.00 KiB
+book1      72.00 KiB
+class      40.00 KiB
+config     96.00 KiB
+local      80.00 KiB
+player     40.00 KiB
+test      344.00 KiB
+book> 
+
+
