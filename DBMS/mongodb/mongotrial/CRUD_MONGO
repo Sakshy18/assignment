@@ -1,0 +1,252 @@
+mongosh
+Current Mongosh Log ID:	635f87e3c162ece0ffcbdfb0
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.0
+Using MongoDB:		6.0.2
+Using Mongosh:		1.6.0
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2022-10-31T13:39:15.274+05:30: Using the XFS filesystem is strongly recommended with the WiredTiger storage engine. See http://dochub.mongodb.org/core/prodnotes-filesystem
+   2022-10-31T13:39:15.538+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+   2022-10-31T13:39:15.538+05:30: vm.max_map_count is too low
+------
+
+------
+   Enable MongoDB's free cloud-based monitoring service, which will then receive and display
+   metrics about your deployment (disk utilization, CPU, operation statistics, etc).
+   
+   The monitoring data will be available on a MongoDB website with a unique URL accessible to you
+   and anyone you share the URL with. MongoDB may use this information to make product
+   improvements and to suggest MongoDB products and deployment options to you.
+   
+   To enable free monitoring, run the following command: db.enableFreeMonitoring()
+   To permanently disable this reminder, run the following command: db.disableFreeMonitoring()
+------
+
+test> show dbs
+admin      40.00 KiB
+aggreg49   80.00 KiB
+aniket     72.00 KiB
+assign     72.00 KiB
+book      252.00 KiB
+book1      72.00 KiB
+class      40.00 KiB
+config     60.00 KiB
+local      80.00 KiB
+player     40.00 KiB
+test      344.00 KiB
+test> use department
+switched to db department
+department> show collections
+
+department> db.dept.insertOne(
+... {
+... name:'computer',
+... labs:3
+... }
+... )
+{
+  acknowledged: true,
+  insertedId: ObjectId("635f88be8e5ea0a647b3ef11")
+}
+department> db.dept.insertMany(
+... {
+... 
+... 
+department> db.dept.insertMany
+[Function: insertMany] AsyncFunction {
+  apiVersions: [ 1, Infinity ],
+  serverVersions: [ '3.2.0', '999.999.999' ],
+  returnsPromise: true,
+  topologies: [ 'ReplSet', 'Sharded', 'LoadBalanced', 'Standalone' ],
+  returnType: { type: 'unknown', attributes: {} },
+  deprecated: false,
+  platforms: [ 'Compass', 'Browser', 'CLI' ],
+  isDirectShellCommand: false,
+  acceptsRawInput: false,
+  shellCommandCompleter: undefined,
+  help: [Function (anonymous)] Help
+}
+department> (
+... 
+... 
+department> db.dept.insertMany([
+... {
+... name:'mechanical',
+... labs:2},
+... {
+... name:'civil',
+... labs:2
+... }
+... {
+Uncaught:
+SyntaxError: Unexpected token, expected "," (9:0)
+
+   7 | labs:2
+   8 | }
+>  9 | {
+     | ^
+  10 |
+
+department> db.dept.insertMany([ { name:'mechanical', labs:2}, { name:'civil', labs:2 } {,
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:76)
+
+> 1 | db.dept.insertMany([ { name:'mechanical', labs:2}, { name:'civil', labs:2 } {,
+    |                                                                             ^
+  2 |
+
+department> db.dept.insertMany([ { name:'mechanical', labs:2}, { name:'civil', labs:2 } 
+... ,
+... {
+... name:'IT'
+... ,
+... labs:2}
+... ]
+... )
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId("635f89688e5ea0a647b3ef12"),
+    '1': ObjectId("635f89688e5ea0a647b3ef13"),
+    '2': ObjectId("635f89688e5ea0a647b3ef14")
+  }
+}
+department> db.dept.insertMany([{ name: 'Instru', labs: 2 }, { name: 'ENTC', labs: 2 }, { name: 'AIDS',labs:2}
+... ])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId("635f89a38e5ea0a647b3ef15"),
+    '1': ObjectId("635f89a38e5ea0a647b3ef16"),
+    '2': ObjectId("635f89a38e5ea0a647b3ef17")
+  }
+}
+department> db.dept.find()
+[
+  {
+    _id: ObjectId("635f88be8e5ea0a647b3ef11"),
+    name: 'computer',
+    labs: 3
+  },
+  {
+    _id: ObjectId("635f89688e5ea0a647b3ef12"),
+    name: 'mechanical',
+    labs: 2
+  },
+  { _id: ObjectId("635f89688e5ea0a647b3ef13"), name: 'civil', labs: 2 },
+  { _id: ObjectId("635f89688e5ea0a647b3ef14"), name: 'IT', labs: 2 },
+  {
+    _id: ObjectId("635f89a38e5ea0a647b3ef15"),
+    name: 'Instru',
+    labs: 2
+  },
+  { _id: ObjectId("635f89a38e5ea0a647b3ef16"), name: 'ENTC', labs: 2 },
+  { _id: ObjectId("635f89a38e5ea0a647b3ef17"), name: 'AIDS', labs: 2 }
+]
+department> db.dept.find().pretty()
+[
+  {
+    _id: ObjectId("635f88be8e5ea0a647b3ef11"),
+    name: 'computer',
+    labs: 3
+  },
+  {
+    _id: ObjectId("635f89688e5ea0a647b3ef12"),
+    name: 'mechanical',
+    labs: 2
+  },
+  { _id: ObjectId("635f89688e5ea0a647b3ef13"), name: 'civil', labs: 2 },
+  { _id: ObjectId("635f89688e5ea0a647b3ef14"), name: 'IT', labs: 2 },
+  {
+    _id: ObjectId("635f89a38e5ea0a647b3ef15"),
+    name: 'Instru',
+    labs: 2
+  },
+  { _id: ObjectId("635f89a38e5ea0a647b3ef16"), name: 'ENTC', labs: 2 },
+  { _id: ObjectId("635f89a38e5ea0a647b3ef17"), name: 'AIDS', labs: 2 }
+]
+department> db.dept.find({name:'computer'})
+[
+  {
+    _id: ObjectId("635f88be8e5ea0a647b3ef11"),
+    name: 'computer',
+    labs: 3
+  }
+]
+department> db.dept.find({name:'computer',labs:2})
+
+department> db.dept.count({labs:2})
+DeprecationWarning: Collection.count() is deprecated. Use countDocuments or estimatedDocumentCount.
+6
+department> db.dept.update(
+... {name:'computer'},{$set:{labs:2}}
+... )
+DeprecationWarning: Collection.update() is deprecated. Use updateOne, updateMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+department> db.dept.find()
+[
+  {
+    _id: ObjectId("635f88be8e5ea0a647b3ef11"),
+    name: 'computer',
+    labs: 2
+  },
+  {
+    _id: ObjectId("635f89688e5ea0a647b3ef12"),
+    name: 'mechanical',
+    labs: 2
+  },
+  { _id: ObjectId("635f89688e5ea0a647b3ef13"), name: 'civil', labs: 2 },
+  { _id: ObjectId("635f89688e5ea0a647b3ef14"), name: 'IT', labs: 2 },
+  {
+    _id: ObjectId("635f89a38e5ea0a647b3ef15"),
+    name: 'Instru',
+    labs: 2
+  },
+  { _id: ObjectId("635f89a38e5ea0a647b3ef16"), name: 'ENTC', labs: 2 },
+  { _id: ObjectId("635f89a38e5ea0a647b3ef17"), name: 'AIDS', labs: 2 }
+]
+department> db.dept.replaceOne(
+... {name:'AIDS'},
+... {name:'Artificial intelligence and data science'})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+department> db.dept.find()
+[
+  {
+    _id: ObjectId("635f88be8e5ea0a647b3ef11"),
+    name: 'computer',
+    labs: 2
+  },
+  {
+    _id: ObjectId("635f89688e5ea0a647b3ef12"),
+    name: 'mechanical',
+    labs: 2
+  },
+  { _id: ObjectId("635f89688e5ea0a647b3ef13"), name: 'civil', labs: 2 },
+  { _id: ObjectId("635f89688e5ea0a647b3ef14"), name: 'IT', labs: 2 },
+  {
+    _id: ObjectId("635f89a38e5ea0a647b3ef15"),
+    name: 'Instru',
+    labs: 2
+  },
+  { _id: ObjectId("635f89a38e5ea0a647b3ef16"), name: 'ENTC', labs: 2 },
+  {
+    _id: ObjectId("635f89a38e5ea0a647b3ef17"),
+    name: 'Artificial intelligence and data science'
+  }
+]
+department> 
