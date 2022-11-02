@@ -1,0 +1,280 @@
+show dbs
+admin     40.00 KiB
+b270      48.00 KiB
+book      80.00 KiB
+config    60.00 KiB
+db1      152.00 KiB
+local     80.00 KiB
+nihar     72.00 KiB
+shreyas  156.00 KiB
+test     128.00 KiB
+test> use sakshi
+switched to db sakshi
+
+sakshi> db.createCollection('student')
+{ ok: 1 }
+sakshi> db.student.insertOne({"name":"Aryan","language":"Java"})
+{
+  acknowledged: true,
+  insertedId: ObjectId("63620749a9c5d54040fceafb")
+}
+sakshi> db.student.insertMany(
+... [
+... {"name":"Ashutosh","language":"Python"},
+... {"name":"Aman","language":"C++"},
+... {"name":"Swapnil","language":"C"}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId("6362078ea9c5d54040fceafc"),
+    '1': ObjectId("6362078ea9c5d54040fceafd"),
+    '2': ObjectId("6362078ea9c5d54040fceafe")
+  }
+}
+sakshi> db.student.find()
+[
+  {
+    _id: ObjectId("63620749a9c5d54040fceafb"),
+    name: 'Aryan',
+    language: 'Java'
+  },
+  {
+    _id: ObjectId("6362078ea9c5d54040fceafc"),
+    name: 'Ashutosh',
+    language: 'Python'
+  },
+  {
+    _id: ObjectId("6362078ea9c5d54040fceafd"),
+    name: 'Aman',
+    language: 'C++'
+  },
+  {
+    _id: ObjectId("6362078ea9c5d54040fceafe"),
+    name: 'Swapnil',
+    language: 'C'
+  }
+]
+sakshi> db.student.insertMany( [ { "name": "tanisha", "language": "Python" }, { "name": "sweta", "language": "Java" }, { "name": "Sakshi", "language": "C++" }])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId("636207d9a9c5d54040fceaff"),
+    '1': ObjectId("636207d9a9c5d54040fceb00"),
+    '2': ObjectId("636207d9a9c5d54040fceb01")
+  }
+}
+sakshi> db.student.find().pretty()
+[
+  {
+    _id: ObjectId("63620749a9c5d54040fceafb"),
+    name: 'Aryan',
+    language: 'Java'
+  },
+  {
+    _id: ObjectId("6362078ea9c5d54040fceafc"),
+    name: 'Ashutosh',
+    language: 'Python'
+  },
+  {
+    _id: ObjectId("6362078ea9c5d54040fceafd"),
+    name: 'Aman',
+    language: 'C++'
+  },
+  {
+    _id: ObjectId("6362078ea9c5d54040fceafe"),
+    name: 'Swapnil',
+    language: 'C'
+  },
+  {
+    _id: ObjectId("636207d9a9c5d54040fceaff"),
+    name: 'tanisha',
+    language: 'Python'
+  },
+  {
+    _id: ObjectId("636207d9a9c5d54040fceb00"),
+    name: 'sweta',
+    language: 'Java'
+  },
+  {
+    _id: ObjectId("636207d9a9c5d54040fceb01"),
+    name: 'Sakshi',
+    language: 'C++'
+  }
+]
+sakshi> db.student.createIndex({name:1})
+name_1
+sakshi> db.student.createIndex({language:-1})
+language_-1
+sakshi> db.student.createIndex({name:1,language:-1})
+name_1_language_-1
+sakshi> db.student.dropIndex({language:-1})
+{ nIndexesWas: 4, ok: 1 }
+sakshi> db.student.getIndexes()
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { name: 1 }, name: 'name_1' },
+  { v: 2, key: { name: 1, language: -1 }, name: 'name_1_language_-1' }
+]
+sakshi> db.student.find().sort({name:1})
+[
+  {
+    _id: ObjectId("6362078ea9c5d54040fceafd"),
+    name: 'Aman',
+    language: 'C++'
+  },
+  {
+    _id: ObjectId("63620749a9c5d54040fceafb"),
+    name: 'Aryan',
+    language: 'Java'
+  },
+  {
+    _id: ObjectId("6362078ea9c5d54040fceafc"),
+    name: 'Ashutosh',
+    language: 'Python'
+  },
+  {
+    _id: ObjectId("636207d9a9c5d54040fceb01"),
+    name: 'Sakshi',
+    language: 'C++'
+  },
+  {
+    _id: ObjectId("6362078ea9c5d54040fceafe"),
+    name: 'Swapnil',
+    language: 'C'
+  },
+  {
+    _id: ObjectId("636207d9a9c5d54040fceb00"),
+    name: 'sweta',
+    language: 'Java'
+  },
+  {
+    _id: ObjectId("636207d9a9c5d54040fceaff"),
+    name: 'tanisha',
+    language: 'Python'
+  }
+]
+sakshi> db.student.find().sort({language:1})
+[
+  {
+    _id: ObjectId("6362078ea9c5d54040fceafe"),
+    name: 'Swapnil',
+    language: 'C'
+  },
+  {
+    _id: ObjectId("6362078ea9c5d54040fceafd"),
+    name: 'Aman',
+    language: 'C++'
+  },
+  {
+    _id: ObjectId("636207d9a9c5d54040fceb01"),
+    name: 'Sakshi',
+    language: 'C++'
+  },
+  {
+    _id: ObjectId("63620749a9c5d54040fceafb"),
+    name: 'Aryan',
+    language: 'Java'
+  },
+  {
+    _id: ObjectId("636207d9a9c5d54040fceb00"),
+    name: 'sweta',
+    language: 'Java'
+  },
+  {
+    _id: ObjectId("6362078ea9c5d54040fceafc"),
+    name: 'Ashutosh',
+    language: 'Python'
+  },
+  {
+    _id: ObjectId("636207d9a9c5d54040fceaff"),
+    name: 'tanisha',
+    language: 'Python'
+  }
+]
+sakshi> db.student.find().sort({name:-1})
+[
+  {
+    _id: ObjectId("636207d9a9c5d54040fceaff"),
+    name: 'tanisha',
+    language: 'Python'
+  },
+  {
+    _id: ObjectId("636207d9a9c5d54040fceb00"),
+    name: 'sweta',
+    language: 'Java'
+  },
+  {
+    _id: ObjectId("6362078ea9c5d54040fceafe"),
+    name: 'Swapnil',
+    language: 'C'
+  },
+  {
+    _id: ObjectId("636207d9a9c5d54040fceb01"),
+    name: 'Sakshi',
+    language: 'C++'
+  },
+  {
+    _id: ObjectId("6362078ea9c5d54040fceafc"),
+    name: 'Ashutosh',
+    language: 'Python'
+  },
+  {
+    _id: ObjectId("63620749a9c5d54040fceafb"),
+    name: 'Aryan',
+    language: 'Java'
+  },
+  {
+    _id: ObjectId("6362078ea9c5d54040fceafd"),
+    name: 'Aman',
+    language: 'C++'
+  }
+]
+sakshi> db.student.aggregate([{'$sort':{'name':1}}])
+[
+  {
+    _id: ObjectId("6362078ea9c5d54040fceafd"),
+    name: 'Aman',
+    language: 'C++'
+  },
+  {
+    _id: ObjectId("63620749a9c5d54040fceafb"),
+    name: 'Aryan',
+    language: 'Java'
+  },
+  {
+    _id: ObjectId("6362078ea9c5d54040fceafc"),
+    name: 'Ashutosh',
+    language: 'Python'
+  },
+  {
+    _id: ObjectId("636207d9a9c5d54040fceb01"),
+    name: 'Sakshi',
+    language: 'C++'
+  },
+  {
+    _id: ObjectId("6362078ea9c5d54040fceafe"),
+    name: 'Swapnil',
+    language: 'C'
+  },
+  {
+    _id: ObjectId("636207d9a9c5d54040fceb00"),
+    name: 'sweta',
+    language: 'Java'
+  },
+  {
+    _id: ObjectId("636207d9a9c5d54040fceaff"),
+    name: 'tanisha',
+    language: 'Python'
+  }
+]
+sakshi> db.student.aggregate([{$group:{_id:'$name',language:{$max:"$language"}}}])
+[
+  { _id: 'tanisha', language: 'Python' },
+  { _id: 'sweta', language: 'Java' },
+  { _id: 'Sakshi', language: 'C++' },
+  { _id: 'Aman', language: 'C++' },
+  { _id: 'Ashutosh', language: 'Python' },
+  { _id: 'Swapnil', language: 'C' },
+  { _id: 'Aryan', language: 'Java' }
+]
+sakshi> 
