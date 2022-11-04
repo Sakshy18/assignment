@@ -1,0 +1,735 @@
+Microsoft Windows [Version 10.0.22000.1098]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\91917>mongosh
+Current Mongosh Log ID: 6364f9b89509eac349c4fc80
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.0
+Using MongoDB:          6.0.2
+Using Mongosh:          1.6.0
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2022-11-01T01:40:09.554+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+------
+   Enable MongoDB's free cloud-based monitoring service, which will then receive and display
+   metrics about your deployment (disk utilization, CPU, operation statistics, etc).
+
+   The monitoring data will be available on a MongoDB website with a unique URL accessible to you
+   and anyone you share the URL with. MongoDB may use this information to make product
+   improvements and to suggest MongoDB products and deployment options to you.
+
+   To enable free monitoring, run the following command: db.enableFreeMonitoring()
+   To permanently disable this reminder, run the following command: db.disableFreeMonitoring()
+------
+
+test> show dbs
+admin       40.00 KiB
+assignment  80.00 KiB
+config      84.00 KiB
+corner      48.00 KiB
+dbms        40.00 KiB
+local       72.00 KiB
+trial1      72.00 KiB
+test> use sakshi
+switched to db sakshi
+sakshi> db.createCollection('inventory')
+{ ok: 1 }
+sakshi> db.inventory,insertMany(
+... [
+... {
+... item:'book',
+... qty:20,
+... price:20},{
+... item:'pen',
+... qty:10,
+... price:30
+... },
+... {
+... item:'canvas',
+... qty:5,
+... price:50
+... },
+... {
+... item:'paints',
+... qty:100,
+... price:25
+... }
+... ]
+... )
+ReferenceError: insertMany is not defined
+sakshi> db.inventory.insertMany( [ { item: 'book', qty: 20, price: 20 }, { item: 'pen', qty: 10, price: 30 }, { item: 'canvas', qty: 5, price: 50 }, { item: 'paints', qty: 100, price: 25 }])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId("6364fb29cb65a4c124a430d7"),
+    '1': ObjectId("6364fb29cb65a4c124a430d8"),
+    '2': ObjectId("6364fb29cb65a4c124a430d9"),
+    '3': ObjectId("6364fb29cb65a4c124a430da")
+  }
+}
+sakshi> db.inventory.find()
+[
+  {
+    _id: ObjectId("6364fb29cb65a4c124a430d7"),
+    item: 'book',
+    qty: 20,
+    price: 20
+  },
+  {
+    _id: ObjectId("6364fb29cb65a4c124a430d8"),
+    item: 'pen',
+    qty: 10,
+    price: 30
+  },
+  {
+    _id: ObjectId("6364fb29cb65a4c124a430d9"),
+    item: 'canvas',
+    qty: 5,
+    price: 50
+  },
+  {
+    _id: ObjectId("6364fb29cb65a4c124a430da"),
+    item: 'paints',
+    qty: 100,
+    price: 25
+  }
+]
+sakshi> db.inventory.countDocuments
+db.inventory.countDocuments
+
+sakshi> db.inventory.countDocuments()
+4
+sakshi> db.inventory.find({qty<20})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:22)
+
+> 1 | db.inventory.find({qty<20})
+    |                       ^
+  2 |
+
+sakshi> db.inventory.find({qty:20})
+[
+  {
+    _id: ObjectId("6364fb29cb65a4c124a430d7"),
+    item: 'book',
+    qty: 20,
+    price: 20
+  }
+]
+sakshi> db.inventory.find({price:{$in:[20,50]}})
+[
+  {
+    _id: ObjectId("6364fb29cb65a4c124a430d7"),
+    item: 'book',
+    qty: 20,
+    price: 20
+  },
+  {
+    _id: ObjectId("6364fb29cb65a4c124a430d9"),
+    item: 'canvas',
+    qty: 5,
+    price: 50
+  }
+]
+sakshi> db.inventory.find({qty:{$in:[20,30]}})
+[
+  {
+    _id: ObjectId("6364fb29cb65a4c124a430d7"),
+    item: 'book',
+    qty: 20,
+    price: 20
+  }
+]
+sakshi> db.inventory.find({price:{$or:[20,50]}})
+MongoServerError: unknown operator: $or
+sakshi> db.inventory.find({qty:20,price: {$lt :50}})
+[
+  {
+    _id: ObjectId("6364fb29cb65a4c124a430d7"),
+    item: 'book',
+    qty: 20,
+    price: 20
+  }
+]
+sakshi> db.inventory.find({qty:10,price: {$lt :50}})
+[
+  {
+    _id: ObjectId("6364fb29cb65a4c124a430d8"),
+    item: 'pen',
+    qty: 10,
+    price: 30
+  }
+]
+sakshi> db.inventory.find({qty:10,price: {$lte :50}})
+[
+  {
+    _id: ObjectId("6364fb29cb65a4c124a430d8"),
+    item: 'pen',
+    qty: 10,
+    price: 30
+  }
+]
+sakshi> db.inventory.find({qty:{$gte:20},price: {$lte :50}})
+[
+  {
+    _id: ObjectId("6364fb29cb65a4c124a430d7"),
+    item: 'book',
+    qty: 20,
+    price: 20
+  },
+  {
+    _id: ObjectId("6364fb29cb65a4c124a430da"),
+    item: 'paints',
+    qty: 100,
+    price: 25
+  }
+]
+sakshi> db.inventory.insertMany( [ { item: 'book', qty: 20, price: 20 }, { item: 'pen', qty: 10, price: 30 }, { item: 'eraser', qty: 20, price: 50 ,size:{h:5,w:20,uom:'cm'}}, { item: 'paper', qty: 100, price: 25,size:{h:20,w:10,uom:'in'} }])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId("6364fea0cb65a4c124a430db"),
+    '1': ObjectId("6364fea0cb65a4c124a430dc"),
+    '2': ObjectId("6364fea0cb65a4c124a430dd"),
+    '3': ObjectId("6364fea0cb65a4c124a430de")
+  }
+}
+sakshi> db.inventory.find().pretty()
+[
+  {
+    _id: ObjectId("6364fb29cb65a4c124a430d7"),
+    item: 'book',
+    qty: 20,
+    price: 20
+  },
+  {
+    _id: ObjectId("6364fb29cb65a4c124a430d8"),
+    item: 'pen',
+    qty: 10,
+    price: 30
+  },
+  {
+    _id: ObjectId("6364fb29cb65a4c124a430d9"),
+    item: 'canvas',
+    qty: 5,
+    price: 50
+  },
+  {
+    _id: ObjectId("6364fb29cb65a4c124a430da"),
+    item: 'paints',
+    qty: 100,
+    price: 25
+  },
+  {
+    _id: ObjectId("6364fea0cb65a4c124a430db"),
+    item: 'book',
+    qty: 20,
+    price: 20
+  },
+  {
+    _id: ObjectId("6364fea0cb65a4c124a430dc"),
+    item: 'pen',
+    qty: 10,
+    price: 30
+  },
+  {
+    _id: ObjectId("6364fea0cb65a4c124a430dd"),
+    item: 'eraser',
+    qty: 20,
+    price: 50,
+    size: { h: 5, w: 20, uom: 'cm' }
+  },
+  {
+    _id: ObjectId("6364fea0cb65a4c124a430de"),
+    item: 'paper',
+    qty: 100,
+    price: 25,
+    size: { h: 20, w: 10, uom: 'in' }
+  }
+]
+sakshi> db.inventory.insertMany( [  { item: 'ruler', qty: 20, price: 25 ,size:{h:20,w:20,uom:'cm'}}, { item: 'sheet', qty: 30, price: 25,size:{h:20,w:10,uom:'in'} }])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId("6364ff1acb65a4c124a430df"),
+    '1': ObjectId("6364ff1acb65a4c124a430e0")
+  }
+}
+sakshi> db.inventory.find()
+[
+  {
+    _id: ObjectId("6364fb29cb65a4c124a430d7"),
+    item: 'book',
+    qty: 20,
+    price: 20
+  },
+  {
+    _id: ObjectId("6364fb29cb65a4c124a430d8"),
+    item: 'pen',
+    qty: 10,
+    price: 30
+  },
+  {
+    _id: ObjectId("6364fb29cb65a4c124a430d9"),
+    item: 'canvas',
+    qty: 5,
+    price: 50
+  },
+  {
+    _id: ObjectId("6364fb29cb65a4c124a430da"),
+    item: 'paints',
+    qty: 100,
+    price: 25
+  },
+  {
+    _id: ObjectId("6364fea0cb65a4c124a430db"),
+    item: 'book',
+    qty: 20,
+    price: 20
+  },
+  {
+    _id: ObjectId("6364fea0cb65a4c124a430dc"),
+    item: 'pen',
+    qty: 10,
+    price: 30
+  },
+  {
+    _id: ObjectId("6364fea0cb65a4c124a430dd"),
+    item: 'eraser',
+    qty: 20,
+    price: 50,
+    size: { h: 5, w: 20, uom: 'cm' }
+  },
+  {
+    _id: ObjectId("6364fea0cb65a4c124a430de"),
+    item: 'paper',
+    qty: 100,
+    price: 25,
+    size: { h: 20, w: 10, uom: 'in' }
+  },
+  {
+    _id: ObjectId("6364ff1acb65a4c124a430df"),
+    item: 'ruler',
+    qty: 20,
+    price: 25,
+    size: { h: 20, w: 20, uom: 'cm' }
+  },
+  {
+    _id: ObjectId("6364ff1acb65a4c124a430e0"),
+    item: 'sheet',
+    qty: 30,
+    price: 25,
+    size: { h: 20, w: 10, uom: 'in' }
+  }
+]
+sakshi> db.inventory.find({size:{uom:'in'}})
+
+sakshi> db.inventory.find({size:{h:20,w:10,uom:'in'}})
+[
+  {
+    _id: ObjectId("6364fea0cb65a4c124a430de"),
+    item: 'paper',
+    qty: 100,
+    price: 25,
+    size: { h: 20, w: 10, uom: 'in' }
+  },
+  {
+    _id: ObjectId("6364ff1acb65a4c124a430e0"),
+    item: 'sheet',
+    qty: 30,
+    price: 25,
+    size: { h: 20, w: 10, uom: 'in' }
+  }
+]
+sakshi> db.inventory.find({size.uom:'in'})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:23)
+
+> 1 | db.inventory.find({size.uom:'in'})
+    |                        ^
+  2 |
+
+sakshi> db.inventory.find({"size.uom":'in'})
+[
+  {
+    _id: ObjectId("6364fea0cb65a4c124a430de"),
+    item: 'paper',
+    qty: 100,
+    price: 25,
+    size: { h: 20, w: 10, uom: 'in' }
+  },
+  {
+    _id: ObjectId("6364ff1acb65a4c124a430e0"),
+    item: 'sheet',
+    qty: 30,
+    price: 25,
+    size: { h: 20, w: 10, uom: 'in' }
+  }
+]
+sakshi> db.inventory.find({"size.h":'20'})
+
+sakshi> db.inventory.find({size.h:'20'})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:23)
+
+> 1 | db.inventory.find({size.h:'20'})
+    |                        ^
+  2 |
+
+sakshi> db.inventory.find({"size.uom":'in',"size.h":{$lt:15}})
+
+sakshi> db.inventory.find({"size.uom":'in',"size.h":{$gte:20}})
+[
+  {
+    _id: ObjectId("6364fea0cb65a4c124a430de"),
+    item: 'paper',
+    qty: 100,
+    price: 25,
+    size: { h: 20, w: 10, uom: 'in' }
+  },
+  {
+    _id: ObjectId("6364ff1acb65a4c124a430e0"),
+    item: 'sheet',
+    qty: 30,
+    price: 25,
+    size: { h: 20, w: 10, uom: 'in' }
+  }
+]
+sakshi> db.inventory.find({"size.h":{$all:[20,30]}})
+
+sakshi> db.inventory.find({"size.h":{$all:20}})
+MongoServerError: $all needs an array
+sakshi> db.inventory.insertMany( [  { item: 'ruler', qty: 20, price: 25 ,size:{h:20,w:20,uom:'cm'}}, { item: 'sheet', qty: 30, price: 25,size:{h:20,w:10,uom:'in'},tags:['red','blank'] }])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId("63650129cb65a4c124a430e1"),
+    '1': ObjectId("63650129cb65a4c124a430e2")
+  }
+}
+sakshi> db.inventory.drop
+db.inventory.dropIndexes  db.inventory.dropIndex    db.inventory.drop
+
+sakshi> db.inventory.drop
+db.inventory.dropIndexes  db.inventory.dropIndex    db.inventory.drop
+
+sakshi> db.inventory.drop
+db.inventory.dropIndexes  db.inventory.dropIndex    db.inventory.drop
+
+sakshi> db.inventory.insertMany( [  { item: 'ruler', qty: 20, price: 25 ,size:{h:20,w:20,uom:'cm'},tags:['red']}, { item: 'kit', qty: 30, price: 35,size:{h:20,w:10,uom:'in'},tags:['red','blank'] }])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId("636501a4cb65a4c124a430e3"),
+    '1': ObjectId("636501a4cb65a4c124a430e4")
+  }
+}
+sakshi> db.inventory.find()
+[
+  {
+    _id: ObjectId("6364fb29cb65a4c124a430d7"),
+    item: 'book',
+    qty: 20,
+    price: 20
+  },
+  {
+    _id: ObjectId("6364fb29cb65a4c124a430d8"),
+    item: 'pen',
+    qty: 10,
+    price: 30
+  },
+  {
+    _id: ObjectId("6364fb29cb65a4c124a430d9"),
+    item: 'canvas',
+    qty: 5,
+    price: 50
+  },
+  {
+    _id: ObjectId("6364fb29cb65a4c124a430da"),
+    item: 'paints',
+    qty: 100,
+    price: 25
+  },
+  {
+    _id: ObjectId("6364fea0cb65a4c124a430db"),
+    item: 'book',
+    qty: 20,
+    price: 20
+  },
+  {
+    _id: ObjectId("6364fea0cb65a4c124a430dc"),
+    item: 'pen',
+    qty: 10,
+    price: 30
+  },
+  {
+    _id: ObjectId("6364fea0cb65a4c124a430dd"),
+    item: 'eraser',
+    qty: 20,
+    price: 50,
+    size: { h: 5, w: 20, uom: 'cm' }
+  },
+  {
+    _id: ObjectId("6364fea0cb65a4c124a430de"),
+    item: 'paper',
+    qty: 100,
+    price: 25,
+    size: { h: 20, w: 10, uom: 'in' }
+  },
+  {
+    _id: ObjectId("6364ff1acb65a4c124a430df"),
+    item: 'ruler',
+    qty: 20,
+    price: 25,
+    size: { h: 20, w: 20, uom: 'cm' }
+  },
+  {
+    _id: ObjectId("6364ff1acb65a4c124a430e0"),
+    item: 'sheet',
+    qty: 30,
+    price: 25,
+    size: { h: 20, w: 10, uom: 'in' }
+  },
+  {
+    _id: ObjectId("63650129cb65a4c124a430e1"),
+    item: 'ruler',
+    qty: 20,
+    price: 25,
+    size: { h: 20, w: 20, uom: 'cm' }
+  },
+  {
+    _id: ObjectId("63650129cb65a4c124a430e2"),
+    item: 'sheet',
+    qty: 30,
+    price: 25,
+    size: { h: 20, w: 10, uom: 'in' },
+    tags: [ 'red', 'blank' ]
+  },
+  {
+    _id: ObjectId("636501a4cb65a4c124a430e3"),
+    item: 'ruler',
+    qty: 20,
+    price: 25,
+    size: { h: 20, w: 20, uom: 'cm' },
+    tags: [ 'red' ]
+  },
+  {
+    _id: ObjectId("636501a4cb65a4c124a430e4"),
+    item: 'kit',
+    qty: 30,
+    price: 35,
+    size: { h: 20, w: 10, uom: 'in' },
+    tags: [ 'red', 'blank' ]
+  }
+]
+sakshi> db.inventory.find({tags:{$all:['red']}})
+[
+  {
+    _id: ObjectId("63650129cb65a4c124a430e2"),
+    item: 'sheet',
+    qty: 30,
+    price: 25,
+    size: { h: 20, w: 10, uom: 'in' },
+    tags: [ 'red', 'blank' ]
+  },
+  {
+    _id: ObjectId("636501a4cb65a4c124a430e3"),
+    item: 'ruler',
+    qty: 20,
+    price: 25,
+    size: { h: 20, w: 20, uom: 'cm' },
+    tags: [ 'red' ]
+  },
+  {
+    _id: ObjectId("636501a4cb65a4c124a430e4"),
+    item: 'kit',
+    qty: 30,
+    price: 35,
+    size: { h: 20, w: 10, uom: 'in' },
+    tags: [ 'red', 'blank' ]
+  }
+]
+sakshi> db.inventory.find({tags:{$all:['blank']}})
+[
+  {
+    _id: ObjectId("63650129cb65a4c124a430e2"),
+    item: 'sheet',
+    qty: 30,
+    price: 25,
+    size: { h: 20, w: 10, uom: 'in' },
+    tags: [ 'red', 'blank' ]
+  },
+  {
+    _id: ObjectId("636501a4cb65a4c124a430e4"),
+    item: 'kit',
+    qty: 30,
+    price: 35,
+    size: { h: 20, w: 10, uom: 'in' },
+    tags: [ 'red', 'blank' ]
+  }
+]
+sakshi> db.inventory.find({tags:{$all:['blank'],size:1}})
+MongoServerError: unknown operator: size
+sakshi> db.inventory.find({"tags.1":"red"})
+
+sakshi> db.inventory.find({"tags.0":"red"})
+[
+  {
+    _id: ObjectId("63650129cb65a4c124a430e2"),
+    item: 'sheet',
+    qty: 30,
+    price: 25,
+    size: { h: 20, w: 10, uom: 'in' },
+    tags: [ 'red', 'blank' ]
+  },
+  {
+    _id: ObjectId("636501a4cb65a4c124a430e3"),
+    item: 'ruler',
+    qty: 20,
+    price: 25,
+    size: { h: 20, w: 20, uom: 'cm' },
+    tags: [ 'red' ]
+  },
+  {
+    _id: ObjectId("636501a4cb65a4c124a430e4"),
+    item: 'kit',
+    qty: 30,
+    price: 35,
+    size: { h: 20, w: 10, uom: 'in' },
+    tags: [ 'red', 'blank' ]
+  }
+]
+sakshi> db.inventory.find({"tags.0":"red"},{item:1,tags:1,price:1})
+[
+  {
+    _id: ObjectId("63650129cb65a4c124a430e2"),
+    item: 'sheet',
+    price: 25,
+    tags: [ 'red', 'blank' ]
+  },
+  {
+    _id: ObjectId("636501a4cb65a4c124a430e3"),
+    item: 'ruler',
+    price: 25,
+    tags: [ 'red' ]
+  },
+  {
+    _id: ObjectId("636501a4cb65a4c124a430e4"),
+    item: 'kit',
+    price: 35,
+    tags: [ 'red', 'blank' ]
+  }
+]
+sakshi> db.inventory.find({"tags.0":"red"},{item:1,tags:1,price:1,_id:0})
+[
+  { item: 'sheet', price: 25, tags: [ 'red', 'blank' ] },
+  { item: 'ruler', price: 25, tags: [ 'red' ] },
+  { item: 'kit', price: 35, tags: [ 'red', 'blank' ] }
+]
+sakshi> db.inventory.find({"size.uom":0})
+
+sakshi> db.inventory.find({"size.uom":0},{})
+
+sakshi> db.inventory.find({},{"size.uom":0})
+[
+  {
+    _id: ObjectId("6364fb29cb65a4c124a430d7"),
+    item: 'book',
+    qty: 20,
+    price: 20
+  },
+  {
+    _id: ObjectId("6364fb29cb65a4c124a430d8"),
+    item: 'pen',
+    qty: 10,
+    price: 30
+  },
+  {
+    _id: ObjectId("6364fb29cb65a4c124a430d9"),
+    item: 'canvas',
+    qty: 5,
+    price: 50
+  },
+  {
+    _id: ObjectId("6364fb29cb65a4c124a430da"),
+    item: 'paints',
+    qty: 100,
+    price: 25
+  },
+  {
+    _id: ObjectId("6364fea0cb65a4c124a430db"),
+    item: 'book',
+    qty: 20,
+    price: 20
+  },
+  {
+    _id: ObjectId("6364fea0cb65a4c124a430dc"),
+    item: 'pen',
+    qty: 10,
+    price: 30
+  },
+  {
+    _id: ObjectId("6364fea0cb65a4c124a430dd"),
+    item: 'eraser',
+    qty: 20,
+    price: 50,
+    size: { h: 5, w: 20 }
+  },
+  {
+    _id: ObjectId("6364fea0cb65a4c124a430de"),
+    item: 'paper',
+    qty: 100,
+    price: 25,
+    size: { h: 20, w: 10 }
+  },
+  {
+    _id: ObjectId("6364ff1acb65a4c124a430df"),
+    item: 'ruler',
+    qty: 20,
+    price: 25,
+    size: { h: 20, w: 20 }
+  },
+  {
+    _id: ObjectId("6364ff1acb65a4c124a430e0"),
+    item: 'sheet',
+    qty: 30,
+    price: 25,
+    size: { h: 20, w: 10 }
+  },
+  {
+    _id: ObjectId("63650129cb65a4c124a430e1"),
+    item: 'ruler',
+    qty: 20,
+    price: 25,
+    size: { h: 20, w: 20 }
+  },
+  {
+    _id: ObjectId("63650129cb65a4c124a430e2"),
+    item: 'sheet',
+    qty: 30,
+    price: 25,
+    size: { h: 20, w: 10 },
+    tags: [ 'red', 'blank' ]
+  },
+  {
+    _id: ObjectId("636501a4cb65a4c124a430e3"),
+    item: 'ruler',
+    qty: 20,
+    price: 25,
+    size: { h: 20, w: 20 },
+    tags: [ 'red' ]
+  },
+  {
+    _id: ObjectId("636501a4cb65a4c124a430e4"),
+    item: 'kit',
+    qty: 30,
+    price: 35,
+    size: { h: 20, w: 10 },
+    tags: [ 'red', 'blank' ]
+  }
+]
+sakshi>
